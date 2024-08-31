@@ -118,8 +118,20 @@ namespace DoomahLevelLoader
                 Loaderscene.currentLevelName = null;
             }
             else IsCustomLevel = true;
+
+            if(IsCustomLevel)
+                CheatsManager.Instance.RegisterExternalCheat(showTriggers);
+            else
+            {
+                try
+                {
+                    CheatsManager.Instance.allRegisteredCheats["external"].Remove(showTriggers);
+                }
+                catch { }
+            }
         }
 
+        static ShowTriggers showTriggers = new ShowTriggers();
         public static void Fixorsmth()
         {
             SceneHelper.CurrentScene = SceneManager.GetActiveScene().name;
@@ -141,6 +153,8 @@ namespace DoomahLevelLoader
         private void InstantiateEnvyScreen(bool mainMenu)
         {
             GameObject envyScreenPrefab = terminal.LoadAsset<GameObject>("EnvyScreen.prefab");
+            Debug.Log(envyScreenPrefab);
+            Debug.Log("envyScreenPrefab !!!!!!!!!!!");
             // Fun Fact: my dumbass forgot to put envyscreen in the assetbundle and i was stuck debugging it for 2 hours RAHHHHHHHHHHHHH --thebluenebula
             // smart ass --doomah
             // i find it funny how your laptop broke right after saying that --thebluenebula
